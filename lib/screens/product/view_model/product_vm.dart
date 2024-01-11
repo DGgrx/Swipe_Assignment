@@ -18,6 +18,13 @@ class ProductVm extends ChangeNotifier {
     notifyListeners();
   }
 
+  bool _isSearching = false;
+  bool get isSearching => _isSearching;
+  set isSearching(bool value) {
+    _isSearching = value;
+    notifyListeners();
+  }
+
   void getProducts() async {
     isLoading = true;
     products = await prodRepo.getProducts();
