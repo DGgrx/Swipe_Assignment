@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swipe/screens/product/view_model/product_vm.dart';
 import 'package:swipe/theme/view_model/theme_vm.dart';
 
 
@@ -21,6 +22,7 @@ class AppProviders extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<DarkThemeVm>(create: (_) => DarkThemeVm()),
+        ChangeNotifierProvider<ProductVm>(create: (_) => ProductVm()),
       ],
       child: child,
     );

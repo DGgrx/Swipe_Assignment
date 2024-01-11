@@ -9,4 +9,10 @@ class DarkThemeVm with ChangeNotifier {
     _darkTheme = value;
     notifyListeners();
   }
+
+  void toggleTheme(){
+    _darkTheme = !_darkTheme;
+    notifyListeners();
+  }
+
 }
