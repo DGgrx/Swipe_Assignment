@@ -2,14 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class CustomFormField extends StatelessWidget {
-
-
-  CustomFormField(
+  const CustomFormField(
       {super.key,
       required this.hintText,
       required this.label,
       required this.validator,
-        required this.inputType, this.leadingIcon, this.trailingIcon, required this.maxLength, this.inputFormatters});
+      required this.inputType,
+      this.leadingIcon,
+      this.trailingIcon,
+      required this.maxLength,
+      this.inputFormatters});
 
   final String hintText;
   final String label;
@@ -28,13 +30,13 @@ class CustomFormField extends StatelessWidget {
         validator: validator,
         decoration: InputDecoration(
           prefixIcon: leadingIcon,
-            suffixIcon: trailingIcon,
-            counterText: "",
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-            ),
-            label: Text(label),
-            hintText: hintText,
+          suffixIcon: trailingIcon,
+          counterText: "",
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(Radius.circular(10)),
+          ),
+          label: Text(label),
+          hintText: hintText,
         ),
         maxLength: maxLength,
         keyboardType: inputType,

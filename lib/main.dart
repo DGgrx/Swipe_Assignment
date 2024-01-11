@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe/app_providers.dart';
-import 'package:swipe/screens/product/product_drawer.dart';
 import 'package:swipe/screens/product/product_list.dart';
 import 'package:swipe/theme/theme.dart';
 import 'package:swipe/theme/view_model/theme_vm.dart';
