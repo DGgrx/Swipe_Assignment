@@ -128,8 +128,6 @@ class ProductVm extends ChangeNotifier {
   }
 
   void onSearchTextChanged(String text) {
-    print("Function CALLLEDD !!! ");
-    print("search String: $text");
     searchResults.clear();
     if (text.isEmpty) {
       notifyListeners();
@@ -141,8 +139,6 @@ class ProductVm extends ChangeNotifier {
         searchResults.add(product);
       }
     }
-
-    print(searchResults);
 
     notifyListeners();
   }

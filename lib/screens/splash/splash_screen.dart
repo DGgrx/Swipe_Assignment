@@ -11,19 +11,17 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
   @override
   void initState() {
     super.initState();
-     Provider.of<ProductVm>(context, listen: false).initCall();
+    Provider.of<ProductVm>(context, listen: false).initCall();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: Lottie.asset("assets/splash.json", repeat: false,
-        height: 200),
+        child: Lottie.asset("assets/splash.json", repeat: false, height: 200),
       ),
     );
   }

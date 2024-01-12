@@ -27,7 +27,6 @@ class _ProductFormState extends State<ProductForm> {
             : Form(
                 key: _formKey,
                 child: Column(
-                  // mainAxisAlignment: s
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     const Padding(
