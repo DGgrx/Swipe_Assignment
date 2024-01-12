@@ -1,16 +1,30 @@
-# swipe
+# Swipe Assignment
+Written in Flutter with MVVM Architecture using Providers for clean code and Floor for LocalDB and Caching.  
+- APK can be found in the [link here](https://drive.google.com/drive/folders/1KknZjZ_KY4oLMdD1pe7f3GoPPzIiDjGu?usp=drive_link)  
 
-An assignment for Swipe.
+## Features
+- Uses [Provider](https://pub.dev/packages/provider) & MVVM type structure for State Management 
+- Fetches Data from API and creates a Cache of the same using [Floor](https://pub.dev/packages/floor)
+- Checks if the user is connected to the internet or not using [connectivity_plus](https://pub.dev/packages/connectivity_plus) and provides real-time feedback.
+- Integrates a simple `SearchBar` to search for entries in the Product List.
+- Uses [ImagePicker](https://pub.dev/packages/image_picker) and [ImageCropper](https://pub.dev/packages/image_cropper) to pick multiple Images from Gallery and crop them in [1:1] Aspect Ratio
+- Uses [HTTP Plugin](https://pub.dev/packages/http) to send different API calls and also to make MultiPath call to upload Files to the backend 
+- Uses [Material 3](https://m3.material.io) UI components to provide both Dark/Light Theme capabilities with a click of a button.
 
-## Getting Started
+## Project Setup
+Clone the repo in a suitable folder
+> git clone "https://github.com/DGgrx/Swipe_Assignment"
 
-This project is a starting point for a Flutter application.
+Make sure you have the [Flutter](https://flutter.dev) & [Dart SDK](https://dart.dev/get-dart) installed on your system by running flutter doctor
+> flutter doctor
 
-A few resources to get you started if this is your first Flutter project:
+Once flutter is installed correctly run these commands
+> flutter pub get
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+> flutter run
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Run these 2 commands on the terminal to launch the app in debug mode on either an AVD(Android Virtual Device) or a physical device of your choice.
+
+For any queries, [mail me @ divyanshgarg.divs@gmail.com](mail-to:divyanshgarg.divs@gmail.com) 
+
+Made with ♥ by Divyansh
