@@ -89,10 +89,10 @@ class ProductsRepo {
 
     /// If there are selected images then convert them into byteStream and then
     /// add them to the fields. [fromFile] method was not working.
-    if(images.isNotEmpty) {
+    if (images.isNotEmpty) {
       var bytes = await images[0]!.readAsBytes();
-      final httpImage = http.MultipartFile.fromBytes(
-          'files[]', bytes, filename: 'myImage.png');
+      final httpImage = http.MultipartFile.fromBytes('files[]', bytes,
+          filename: 'myImage.png');
       request.files.add(httpImage);
     }
 
@@ -103,14 +103,11 @@ class ProductsRepo {
 
     var response = await request.send();
 
-
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       return;
-    }
-    else{
+    } else {
       throw Exception('Failed to upload products');
     }
-
   }
 }

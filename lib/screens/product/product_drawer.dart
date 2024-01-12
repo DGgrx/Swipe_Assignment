@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:swipe/common/loader.dart';
 import 'package:swipe/network_service.dart';
@@ -205,8 +204,8 @@ class _ProductFormState extends State<ProductForm> {
                     /// calls the method to [POST] the data to the API. The API call is made by
                     /// the [ViewModel].
                     netStat == ConnectivityStatus.Offline
-                        ? Text(
-                            "Please Connect to the internet.",
+                        ? const Text(
+                            "Please connect to the internet.",
                             textAlign: TextAlign.center,
                             style: TextStyle(color: Colors.red),
                           )

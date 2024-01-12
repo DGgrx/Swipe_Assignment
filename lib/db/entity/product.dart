@@ -1,4 +1,5 @@
 import 'package:floor/floor.dart';
+import '../../../models/product.dart' as M;
 
 @entity
 class Product {
@@ -17,4 +18,5 @@ class Product {
       required this.productName,
       required this.productType,
       required this.tax});
+
 }

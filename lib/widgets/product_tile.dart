@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:swipe/common/constants.dart';
 
@@ -41,7 +42,26 @@ class ProductTile extends StatelessWidget {
                         maxWidth: 100,
                         maxHeight: 100,
                       ),
-                      child: Image.network(imageUrl, fit: BoxFit.cover),
+                      child: CachedNetworkImage(
+                        imageUrl: imageUrl,
+                        fit: BoxFit.cover,
+                        progressIndicatorBuilder: (context, progress, _) {
+                          return Container(
+                            margin: const EdgeInsets.all(40),
+                              child: const CircularProgressIndicator());
+                        },
+                        errorWidget: (context, error, _) {
+                          return Icon(
+                            Icons.image_not_supported_outlined,
+                            size: 100,
+                            color: Theme.of(context)
+                                .iconTheme
+                                .color
+                                ?.withOpacity(0.15),
+                          );
+                        },
+                      ),
+                      // child: Image.network(imageUrl, fit: BoxFit.cover),
                     ),
                   ),
                 ),

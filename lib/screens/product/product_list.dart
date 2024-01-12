@@ -9,7 +9,6 @@ import 'package:swipe/widgets/product_tile.dart';
 import '../../models/product.dart';
 import '../../network_service.dart';
 import '../../widgets/expandable_fab.dart';
-import '../../db/entity/product.dart' as A;
 
 class ProductListScreen extends StatelessWidget {
   const ProductListScreen({super.key});
@@ -19,6 +18,9 @@ class ProductListScreen extends StatelessWidget {
     return Consumer3<ProductVm, ConnectivityStatus, DarkThemeVm>(
       builder: (context, productVm, netStat, darkThemeVm, _) {
         List<Product> products = productVm.products;
+
+        List<Product> list =
+            productVm.isSearching ? productVm.searchResults : products;
 
         return Scaffold(
           body: GestureDetector(
@@ -38,14 +40,26 @@ class ProductListScreen extends StatelessWidget {
                     const SizedBox(
                       height: 10,
                     ),
-                    SearchBar(
-                      hintText: "Search",
-                      backgroundColor: MaterialStateProperty.all(
-                          Theme.of(context).colorScheme.onSecondary),
-                      elevation: MaterialStateProperty.all(2),
-                      leading: const Padding(
-                        padding: EdgeInsets.all(8.0),
-                        child: Icon(Icons.search),
+                    Focus(
+                      onFocusChange: (val){
+                        productVm.isSearching = val;
+                      },
+                      child: SearchBar(
+                        onSubmitted: (val){
+                          productVm.searchTextController.clear();
+                        },
+                        controller: productVm.searchTextController,
+                        hintText: "Search",
+                        backgroundColor: MaterialStateProperty.all(
+                            Theme.of(context).colorScheme.onSecondary),
+                        elevation: MaterialStateProperty.all(2),
+                        leading: const Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Icon(Icons.search),
+                        ),
+                        onChanged: (value) {
+                          productVm.onSearchTextChanged(value);
+                        },
                       ),
                     ),
                     const SizedBox(
@@ -70,42 +84,58 @@ class ProductListScreen extends StatelessWidget {
                                     ? productVm.showToast(
                                         "You are not Connected to the internet.")
                                     : productVm.getProducts();
+
+                                /// This will update the cache
+                                if (productVm.products.isNotEmpty) {
+                                  productVm.refreshCacheMem();
+                                }
                                 await Future.delayed(Duration.zero);
                               },
                               child: products.isEmpty
                                   ? Padding(
-                                    padding: const EdgeInsets.all(50.0),
-                                    child: Column(
+                                      padding: const EdgeInsets.all(50.0),
+                                      child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.center,
-                                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.stretch,
                                         children: [
-                                          Text("No products to show",textAlign: TextAlign.center,),
-                                         SizedBox(height: 20,) ,
+                                          const Text(
+                                            "No products to show",
+                                            textAlign: TextAlign.center,
+                                          ),
+                                          const SizedBox(
+                                            height: 20,
+                                          ),
                                           ElevatedButton(
                                               onPressed: () {
                                                 netStat ==
-                                                        ConnectivityStatus.Offline
+                                                        ConnectivityStatus
+                                                            .Offline
                                                     ? productVm.showToast(
                                                         "You are not Connected to the internet.")
                                                     : productVm.getProducts();
+
+                                                /// This will update the cache
+                                                if (productVm
+                                                    .products.isNotEmpty) {
+                                                  productVm.refreshCacheMem();
+                                                }
                                               },
-                                              child: Text("Refresh Data"))
+                                              child: const Text("Refresh Data"))
                                         ],
                                       ),
-                                  )
+                                    )
                                   : ListView.builder(
-                                      itemCount: products.length,
+                                      itemCount: list.length,
                                       shrinkWrap: true,
                                       itemBuilder: (context, index) {
                                         return ProductTile(
-                                          imageUrl: products[index].image!,
-                                          price: products[index].price!,
-                                          productName:
-                                              products[index].productName!,
-                                          productType:
-                                              products[index].productType!,
-                                          tax: products[index].tax!,
+                                          imageUrl: list[index].image!,
+                                          price: list[index].price!,
+                                          productName: list[index].productName!,
+                                          productType: list[index].productType!,
+                                          tax: list[index].tax!,
                                         );
                                       }),
                             ),

@@ -1,3 +1,5 @@
+import 'package:swipe/db/entity/product.dart' as E;
+
 class Product {
   final int? id;
   String? image;
@@ -8,7 +10,7 @@ class Product {
 
   Product(
       {this.id,
-        this.image,
+      this.image,
       required this.price,
       required this.productName,
       required this.productType,
@@ -22,4 +24,11 @@ class Product {
     tax = json['tax'];
   }
 
+  Product.fromEntity(E.Product product, {this.id}) {
+    image = product.image;
+    productName = product.productName;
+    productType = product.productType;
+    price = product.price;
+    tax = product.tax;
+  }
 }

@@ -1,11 +1,10 @@
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:provider/provider.dart';
-import 'package:swipe/network_service.dart';
-
-// import 'package:swipe/db/entity/product.dart' as E;
+import 'package:swipe/db/dao/product_dao.dart';
+import 'package:swipe/db/entity/product.dart' as E;
 import 'package:swipe/screens/product/repo/product_repo.dart';
 import '../../../common/navigator.dart';
 import '../../../common/routing.dart';
@@ -14,12 +13,14 @@ import '../../../models/product.dart';
 import '../../../widgets/dialog_box.dart';
 
 class ProductVm extends ChangeNotifier {
-  late final database;
-  late final productDao;
+  /// These are to access the local Database that is created for Caching.
+  late final AppDatabase database;
+  late final ProductDao productDao;
 
   ProductsRepo prodRepo = ProductsRepo();
 
   List<Product> products = [];
+  List<E.Product> cachedProds = [];
 
   /// This part is responsible for showing the loader screen while the data is
   /// loading. Just set the [_isLoading] to true use the [_isLoading] from the
@@ -54,50 +55,96 @@ class ProductVm extends ChangeNotifier {
 
   /// This call is a data initialisation call when the app is first loaded.
   void initCall() async {
-
     try {
       products = await prodRepo.getProducts();
-    }catch(e){
+    } catch (e) {
       showToast("Data was unable to Load. Showing cached results.");
     }
 
-    //TODO- This code will be implemented in the Splash Screen as this logic belongs there
     database =
         await $FloorAppDatabase.databaseBuilder('productDatabase.db').build();
     productDao = database.productDao;
 
-    // ConnectivityStatus connStat = Provider.of<ConnectivityStatus>(NavigationService.navigatorKey.currentContext!,listen: false);
-    if(products.isEmpty){
-      print("The call was not made unfortunately");
+    /// This will access the database for Cached values in the DB. If the API call
+    /// fails and the product list is empty we check the Cached Database. If is also
+    /// populated then we will populate our products List.
+    if (products.isEmpty) {
+      int? val = await productDao.countEntries();
+
+      if (val != null || val != 0) {
+        cachedProds = await productDao.findAllProducts();
+
+        for (var prod in cachedProds) {
+          products.add(Product.fromEntity(prod));
+        }
+      }
     }
-    // print(connStat);
 
-    // int? num = await productDao.deleteAll();
-    // print(num);
-    // List<A.Product> list = [];
-    // for (var prod in products) {
-    //   list.add(A.Product(
-    //     price: prod.price!,
-    //     image: prod.image,
-    //     productName: prod.productName!,
-    //     productType: prod.productType!,
-    //     tax: prod.tax!,
-    //   ));
-    // }
-    // await productDao.insertAllProducts(list);
-    // print(await productDao.isEmpty());
-    // print(await productDao.countEntries());
-
-    // TODO - This can be used for searching
-    // dynamic list = await productDao.getProductByName("ice%");
-    // print(list.length);
-
-    await Future.delayed(const Duration(seconds: 4));
+    await Future.delayed(const Duration(seconds: 2));
     Navigator.of(NavigationService.navigatorKey.currentContext!,
             rootNavigator: true)
         .pushReplacement(Routes.landingScreen());
 
     isLoading = false;
+  }
+
+  /// This will refresh the Cache Memory by first clearing it from all the old
+  /// entries and then re-filling them with new ones.
+  ///
+  /// For the innate purpose of our application at this scale, an assumption is
+  /// made that since only [50 entries] are in the entire database this action
+  /// would not be at all expensive and would not affect the performance of our
+  /// app.
+  void refreshCacheMem() async {
+    if (products.isNotEmpty) {
+      int? num = await productDao.deleteAll();
+      if (kDebugMode) {
+        print("$num entries deleted from Database.");
+      }
+      List<E.Product> list = [];
+      for (var prod in products) {
+        list.add(E.Product(
+          price: prod.price!,
+          image: prod.image,
+          productName: prod.productName!,
+          productType: prod.productType!,
+          tax: prod.tax!,
+        ));
+      }
+      await productDao.insertAllProducts(list);
+    }
+  }
+
+  List<Product> searchResults = [];
+  TextEditingController searchTextController = TextEditingController();
+
+  bool _isSearching = false;
+
+  bool get isSearching => _isSearching;
+
+  set isSearching(bool val) {
+    _isSearching = val;
+    notifyListeners();
+  }
+
+  void onSearchTextChanged(String text) {
+    print("Function CALLLEDD !!! ");
+    print("search String: $text");
+    searchResults.clear();
+    if (text.isEmpty) {
+      notifyListeners();
+      return;
+    }
+
+    for (var product in products) {
+      if (product.productName!.toLowerCase().contains(text.toLowerCase())) {
+        searchResults.add(product);
+      }
+    }
+
+    print(searchResults);
+
+    notifyListeners();
   }
 
   /// This function makes a call to the Repo to open the Image picker and return
@@ -157,7 +204,6 @@ class ProductVm extends ChangeNotifier {
         gravity: ToastGravity.BOTTOM,
         backgroundColor: Colors.red,
         textColor: Colors.white,
-        fontSize: 16.0
-    );
+        fontSize: 12.0);
   }
 }
