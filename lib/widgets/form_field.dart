@@ -4,6 +4,7 @@ import 'package:flutter/services.dart';
 class CustomFormField extends StatelessWidget {
   const CustomFormField(
       {super.key,
+      required this.contr,
       required this.hintText,
       required this.label,
       required this.validator,
@@ -13,6 +14,7 @@ class CustomFormField extends StatelessWidget {
       required this.maxLength,
       this.inputFormatters});
 
+  final TextEditingController contr;
   final String hintText;
   final String label;
   final String? Function(String?)? validator;
@@ -27,6 +29,7 @@ class CustomFormField extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: TextFormField(
+        controller: contr,
         validator: validator,
         decoration: InputDecoration(
           prefixIcon: leadingIcon,

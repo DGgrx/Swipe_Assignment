@@ -9,7 +9,7 @@ ThemeData lightTheme = ThemeData(
   ),
   appBarTheme:  AppBarTheme(
     color: Colors.deepPurple[200],
-    iconTheme: IconThemeData(color: Colors.white),
+    iconTheme: const IconThemeData(color: Colors.white),
   ),
   colorScheme: ColorScheme.fromSeed(
       seedColor: Colors.deepPurple, brightness: Brightness.light),

@@ -40,8 +40,11 @@ dependencies:
   cached_network_image: ^3.3.1
   image_picker: ^1.0.7
   image_cropper: ^5.0.1
+  floor: ^1.4.2
 
 dev_dependencies:
+  floor_generator: ^1.4.2
+  build_runner: ^2.1.2
   flutter_test:
     sdk: flutter
 

@@ -7,6 +7,7 @@ import 'package:swipe/theme/view_model/theme_vm.dart';
 import 'package:swipe/widgets/product_tile.dart';
 import '../../models/product.dart';
 import '../../widgets/expandable_fab.dart';
+import '../../db/entity/product.dart' as A;
 
 class ProductListScreen extends StatefulWidget {
   const ProductListScreen({super.key});
@@ -17,20 +18,20 @@ class ProductListScreen extends StatefulWidget {
 
 class _ProductListScreenState extends State<ProductListScreen> {
   // void _showAction(BuildContext context) {
-    // showDialog<void>(
-    //   context: context,
-    //   builder: (context) {
-    //     return AlertDialog(
-    //       content: Text(ProductListScreen._actionTitles[index]),
-    //       actions: [
-    //         TextButton(
-    //           onPressed: () => Navigator.of(context).pop(),
-    //           child: const Text('CLOSE'),
-    //         ),
-    //       ],
-    //     );
-    //   },
-    // );
+  // showDialog<void>(
+  //   context: context,
+  //   builder: (context) {
+  //     return AlertDialog(
+  //       content: Text(ProductListScreen._actionTitles[index]),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () => Navigator.of(context).pop(),
+  //           child: const Text('CLOSE'),
+  //         ),
+  //       ],
+  //     );
+  //   },
+  // );
   // }
 
   // TODO: Move this to Splash Screen.
@@ -126,12 +127,12 @@ class _ProductListScreenState extends State<ProductListScreen> {
                 /// This actionButton will open the BottomModalSheet to add a new
                 /// entry to the products.
                 ActionButton(
-                  onPressed: () => showModalBottomSheet<void>(
+                  onPressed: () => showModalBottomSheet(
                     showDragHandle: true,
                     isScrollControlled: true,
                     context: context,
                     builder: (context) {
-                      return const Padding(
+                      return Padding(
                         padding: EdgeInsets.fromLTRB(12, 0, 12, 12),
                         child: Wrap(
                           children: [
@@ -143,6 +144,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   ),
                   icon: const Icon(Icons.add),
                 ),
+
                 /// This ActionButton Changes the current theme of the app from
                 /// [Dark/Light] Mode.
                 Material(

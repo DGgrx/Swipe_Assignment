@@ -72,5 +72,43 @@ class ProductsRepo {
     }
   }
 
-//TODO - Make an API call to [POST] the form data
+  /// This is a [POST] API call to the server to uplaod the selected image
+  /// only 1 as of now.
+  Future<void> uploadProductData(
+    List<File?> images, {
+    required String productName,
+    required String productType,
+    required String price,
+    required String tax,
+  }) async {
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('https://app.getswipe.in/api/public/add'));
+
+    // for (var image in images)
+    /// If there are selected images then convert them into byteStream and then
+    /// add them to the fields. [fromFile] method was not working.
+    if(images.isNotEmpty) {
+      var bytes = await images[0]!.readAsBytes();
+      final httpImage = http.MultipartFile.fromBytes(
+          'files[]', bytes, filename: 'myImage.png');
+      request.files.add(httpImage);
+    }
+
+    request.fields['product_name'] = productName;
+    request.fields['product_type'] = productType;
+    request.fields['price'] = price;
+    request.fields['tax'] = tax;
+
+    var response = await request.send();
+
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      return;
+    }
+    else{
+      throw Exception('Failed to upload products');
+    }
+
+  }
 }
