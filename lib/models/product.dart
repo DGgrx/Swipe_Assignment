@@ -22,13 +22,4 @@ class Product {
     tax = json['tax'];
   }
 
-// Map<String, dynamic> toJson() {
-//   final Map<String, dynamic> data = new Map<String, dynamic>();
-//   data['image'] = this.image;
-//   data['price'] = this.price;
-//   data['product_name'] = this.productName;
-//   data['product_type'] = this.productType;
-//   data['tax'] = this.tax;
-//   return data;
-// }
 }

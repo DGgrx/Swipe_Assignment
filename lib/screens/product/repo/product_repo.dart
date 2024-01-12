@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_cropper/image_cropper.dart';
@@ -38,7 +39,9 @@ class ProductsRepo {
       }
       return files;
     } on PlatformException catch (e) {
-      print(e);
+      if (kDebugMode) {
+        print(e);
+      }
     }
     return [];
   }
@@ -72,7 +75,7 @@ class ProductsRepo {
     }
   }
 
-  /// This is a [POST] API call to the server to uplaod the selected image
+  /// This is a [POST] API call to the server to upload the selected image
   /// only 1 as of now.
   Future<void> uploadProductData(
     List<File?> images, {
@@ -84,7 +87,6 @@ class ProductsRepo {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://app.getswipe.in/api/public/add'));
 
-    // for (var image in images)
     /// If there are selected images then convert them into byteStream and then
     /// add them to the fields. [fromFile] method was not working.
     if(images.isNotEmpty) {

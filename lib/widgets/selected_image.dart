@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:swipe/common/constants.dart';
 
 class SelectedImage extends StatelessWidget {
   const SelectedImage(
@@ -15,7 +16,7 @@ class SelectedImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: paddingGeneric,
       child: Stack(
         clipBehavior: Clip.none,
         children: [

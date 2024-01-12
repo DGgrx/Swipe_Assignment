@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:swipe/common/constants.dart';
 
 class CustomFormField extends StatelessWidget {
   const CustomFormField(
@@ -27,7 +28,7 @@ class CustomFormField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(8.0),
+      padding: paddingGeneric,
       child: TextFormField(
         controller: contr,
         validator: validator,
@@ -35,8 +36,8 @@ class CustomFormField extends StatelessWidget {
           prefixIcon: leadingIcon,
           suffixIcon: trailingIcon,
           counterText: "",
-          border: const OutlineInputBorder(
-            borderRadius: BorderRadius.all(Radius.circular(10)),
+          border: OutlineInputBorder(
+            borderRadius: border10,
           ),
           label: Text(label),
           hintText: hintText,

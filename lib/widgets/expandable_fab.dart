@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
+import 'package:swipe/common/constants.dart';
+
 @immutable
 class ExpandableFab extends StatefulWidget {
   const ExpandableFab({
@@ -83,9 +85,9 @@ class _ExpandableFabState extends State<ExpandableFab>
           elevation: 4,
           child: InkWell(
             onTap: _toggle,
-            child: const Padding(
-              padding: EdgeInsets.all(8),
-              child: Icon(
+            child: Padding(
+              padding: paddingGeneric,
+              child: const Icon(
                 Icons.close,
               ),
             ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:swipe/common/constants.dart';
 
 class ProductTile extends StatelessWidget {
   const ProductTile(
@@ -32,7 +33,7 @@ class ProductTile extends StatelessWidget {
               : Padding(
                   padding: const EdgeInsets.all(15.0),
                   child: ClipRRect(
-                    borderRadius: const BorderRadius.all(Radius.circular(10)),
+                    borderRadius: border10,
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(
                         minWidth: 100,

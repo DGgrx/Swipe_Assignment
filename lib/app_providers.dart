@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:swipe/network_service.dart';
 import 'package:swipe/screens/product/view_model/product_vm.dart';
 import 'package:swipe/theme/view_model/theme_vm.dart';
-
 
 /// This file is responsible for creating the Top-Level Providers of data and all
 /// the View Models are instantiated here.
@@ -23,6 +23,11 @@ class AppProviders extends StatelessWidget {
       providers: [
         ChangeNotifierProvider<DarkThemeVm>(create: (_) => DarkThemeVm()),
         ChangeNotifierProvider<ProductVm>(create: (_) => ProductVm()),
+        StreamProvider<ConnectivityStatus>(
+          create: (_) =>
+              ConnectivityService().connectionStatusController.stream,
+          initialData: ConnectivityStatus.WiFi,
+        ),
       ],
       child: child,
     );
